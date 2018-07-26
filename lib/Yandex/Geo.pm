@@ -92,7 +92,7 @@ sub new {
 
 Perform API request, handle http errors and return L<Geo::JSON::FeatureCollection> object
 
-Implements all parameters from https://tech.yandex.ru/maps/doc/geosearch/concepts/request-docpage/
+Implements all parameters from L<https://tech.yandex.ru/maps/doc/geosearch/concepts/request-docpage/>
 
 In addition to standart params it implement city param. Check more about its usage and cities available at L<Yandex::Geo/cities_bbox>
 
@@ -128,7 +128,7 @@ sub get {
 
 =head2 y_companies
 
-Do same as L<Yandex::Geo/get> but return array of L<Yandex::Geo:;Companies> objects
+Do same as L<Yandex::Geo/get> but return array of L<Yandex::Geo::Companies> objects
 
 For convenience, search text is provided as first parametes
 

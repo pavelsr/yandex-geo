@@ -11,7 +11,10 @@ Yandex::Geo::Company
 Class that is more convenient realization of company
 
 It has following properties:
-
+    
+    id          # yandex maps id
+    name        # name of company, type = string
+    shortName   # short name of company, type = string
     url         # website of company, type = string
     phones      # company numbers, type = arrayref
     links       # links to pages on social networks, type = arrayref
@@ -36,7 +39,7 @@ E.g. if you make a query
 
 =cut
 
-use Object::Tiny qw{ phones links url vk address postalCode };
+use Object::Tiny qw{ name phones links url vk address postalCode };
 use JSON::XS;
 
 
@@ -59,7 +62,7 @@ sub from_geo_json {
         
         my $h = {};
         
-        for (qw/url address postalCode/) { 
+        for (qw/id name shortName url address postalCode/) { 
             $h->{$_} = $company_meta->{$_} 
         };
         
@@ -97,7 +100,7 @@ sub from_json {
         my $company_meta = $f->{properties}{CompanyMetaData};
         my $h = {};
         
-        for (qw/url address postalCode/) { 
+        for (qw/id name shortName url address postalCode/) { 
             $h->{$_} = $company_meta->{$_} 
         };
         

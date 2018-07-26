@@ -1,10 +1,10 @@
 # NAME
 
-Yandex::Geo - Performs geographical queries using Yandex Maps Company Search API
+Yandex::Geo - Performs queries using Yandex Maps Company Search API
 
 # VERSION
 
-version 0.01
+version 0.02
 
 # DESCRIPTION
 
@@ -19,7 +19,6 @@ Yandex::Geo
 # SYNOPSYS
 
     use Yandex::Geo;
-    use utf8;  # if do cyrillic search
     
     my $yndx_geo = Yandex::Geo->new(
         apikey => 'f33a4523-6c94-48df-9b41-5c5c6f250e98',
@@ -60,7 +59,7 @@ To use in every request you can provide same parameters as in ["get" in Yandex::
 
 Perform API request, handle http errors and return [Geo::JSON::FeatureCollection](https://metacpan.org/pod/Geo::JSON::FeatureCollection) object
 
-Implements all parameters from https://tech.yandex.ru/maps/doc/geosearch/concepts/request-docpage/
+Implements all parameters from [https://tech.yandex.ru/maps/doc/geosearch/concepts/request-docpage/](https://tech.yandex.ru/maps/doc/geosearch/concepts/request-docpage/)
 
 In addition to standart params it implement city param. Check more about its usage and cities available at ["cities\_bbox" in Yandex::Geo](https://metacpan.org/pod/Yandex::Geo#cities_bbox)
 
@@ -72,7 +71,7 @@ If you need to get plain json instead of just [Geo::JSON::FeatureCollection](htt
 
 ## y\_companies
 
-Do same as ["get" in Yandex::Geo](https://metacpan.org/pod/Yandex::Geo#get) but return array of [Yandex::Geo:;Companies](https://metacpan.org/pod/Yandex::Geo:;Companies) objects
+Do same as ["get" in Yandex::Geo](https://metacpan.org/pod/Yandex::Geo#get) but return array of [Yandex::Geo::Companies](https://metacpan.org/pod/Yandex::Geo::Companies) objects
 
 For convenience, search text is provided as first parametes
 
