@@ -1,4 +1,4 @@
-# ABSTRACT: Performs geographical queries using Yandex Maps Company Search API
+# ABSTRACT: Performs queries using Yandex Maps Company Search API
 
 package Yandex::Geo;
 
@@ -15,7 +15,6 @@ L<https://tech.yandex.ru/maps/geosearch/>
 =head1 SYNOPSYS
 
     use Yandex::Geo;
-    use utf8;  # if do cyrillic search
     
     my $yndx_geo = Yandex::Geo->new(
         apikey => 'f33a4523-6c94-48df-9b41-5c5c6f250e98',
