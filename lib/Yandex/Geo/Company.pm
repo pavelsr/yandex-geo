@@ -2,6 +2,9 @@
 
 package Yandex::Geo::Company;
 
+use strict;
+use warnings;
+
 =head1 NAME
 
 Yandex::Geo::Company
@@ -129,7 +132,6 @@ Sequence is: id name shortName phones postalCode address url vk links
 phones, links, vk are serialized, each element on new string
 
 =cut
-
 
 sub to_array {
     my $self = shift;

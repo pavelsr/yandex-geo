@@ -2,6 +2,9 @@
 
 package Yandex::Geo;
 
+use strict;
+use warnings;
+
 =head1 NAME
 
 Yandex::Geo
