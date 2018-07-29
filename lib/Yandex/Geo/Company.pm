@@ -42,7 +42,7 @@ E.g. if you make a query
 
 =cut
 
-use Object::Tiny qw{ name phones links url vk address postalCode };
+use Object::Tiny qw{ id name shortName phones postalCode address url vk links };
 use JSON::XS;
 
 
@@ -119,6 +119,34 @@ sub from_json {
     
     return \@result;
 
+}
+
+=head2 to_array
+
+Serialize object data to arrayref.
+
+Can be useful when inserting data via modules like L<Text::CSV>
+
+Sequence is: id name shortName phones postalCode address url vk links
+
+phones, links, vk are serialized, each element on new string
+
+=cut
+
+sub to_array {
+    my $self = shift;
+    
+    return [
+        $self->id,
+        $self->name,
+        $self->shortName,
+        join( "\n", @{$self->phones} ),
+        $self->postalCode,
+        $self->address,
+        $self->url,
+        join( "\n", @{$self->vk} ),
+        join( "\n", @{$self->links} )
+    ];
 }
 
 1;
