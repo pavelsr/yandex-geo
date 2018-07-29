@@ -59,7 +59,7 @@ Accept Geo::JSON::FeatureCollection and return array of Yandex::Geo::Company
 sub from_geo_json {
     my $feature_collection = shift;
     
-    my @res;
+    my @result;
     
     for my $f ( @{$feature_collection->features} ) {
         
