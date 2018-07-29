@@ -31,14 +31,16 @@ E.g. if you make a query
 
     my $yndx_geo = Yandex::Geosearch->new( apikey => 'f33a4523-6c94-48df-9b41-5c5c6f250e98');
     my $res = $yndx_geo->get(text => 'макетные мастерские', only_city => 'ROV');
+    
+so
 
     Yandex::Geo::Company::from_json( $res->to_json )
     
-    and
+and
     
     Yandex::Geo::Company::from_geo_json( $res )
     
-    do the same.
+do the same.
 
 =cut
 
