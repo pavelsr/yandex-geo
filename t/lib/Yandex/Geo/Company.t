@@ -19,7 +19,7 @@ my $a = Yandex::Geo::Company->new(
     links => [ 'http://foo.bar' ]
 );
 
-my @all = qw{ id name shortName phones postalCode address url vk links coordinates };
+my @all = @{ $a->properties->{all} };
 # my @set = keys %$a;
 
 for my $p (@all) {
@@ -28,7 +28,12 @@ for my $p (@all) {
 
 ok $a->can('properties'), "can properties";
 is_deeply $a->properties->{all}, \@all, 'all properties';
-is_deeply $a->properties->{string}, [ qw/id name shortName url address postalCode vk/ ], 'string properties';
+
+is_deeply 
+    $a->properties->{string}, 
+    [ qw/id name shortName url address postalCode vk instagram longitude latitude/ ], 
+    'string properties';
+    
 is_deeply $a->properties->{array}, [ qw/phones links/ ], 'array properties';
 # is_deeply $a->properties->{set}, \@set, 'all set properties';
 
@@ -40,7 +45,10 @@ my $b = [
 +49-89-636-48018',
     344000,
     undef,
+    undef,
+    undef,
     'example.com',
+    undef,
     undef,
     'http://foo.bar'
 ];
@@ -65,7 +73,9 @@ my $good = [
         'shortName' => "\x{413}\x{43e}\x{441}\x{43c}\x{430}\x{43a}\x{435}\x{442}",
         'vk' => 'http://vk.com/gosmaket',
         'address' => "1-\x{439} \x{41c}\x{430}\x{448}\x{438}\x{43d}\x{43e}\x{441}\x{442}\x{440}\x{43e}\x{438}\x{442}\x{435}\x{43b}\x{44c}\x{43d}\x{44b}\x{439} \x{43f}\x{435}\x{440}., 11",
-        'postalCode' => '344090'
+        'postalCode' => '344090',
+        'longitude' => '47.254006',
+        'latitude' => '39.603088'
     )
 ];
 

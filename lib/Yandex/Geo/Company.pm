@@ -54,7 +54,7 @@ do the same.
 
 =cut
 
-use Object::Tiny qw{ id name shortName phones postalCode address url vk links coordinates };
+use Object::Tiny qw{ id name shortName phones postalCode address url vk instagram links longitude latitude };
 use JSON::XS;
 
 =head2 properties
@@ -76,12 +76,11 @@ sub properties {
     # my $self = shift;
     return {
         # set => [ sort keys $self ],
-        all => [ qw{ id name shortName phones postalCode address url vk links coordinates } ],
-        string => [ qw/id name shortName url address postalCode vk/ ],
-        array => [ qw/phones links/ ]
+        all => [ qw{ id name shortName phones postalCode address url vk instagram links longitude latitude } ],
+        string => [ qw/id name shortName url address postalCode vk instagram longitude latitude/ ],
+        array => [ qw/phones links/ ]   # real properties in capital case
     };
 }
-
 
 =head2 from_geo_json
 
@@ -115,6 +114,9 @@ sub from_geo_json {
         my $inst_link = ( grep { $_->{aref} eq '#instagram' } @{ $company_meta->{Links} } )[0];
         $h->{instagram} = $inst_link->{href} if defined $inst_link;
         
+        $h->{longitude} = $f->geometry->coordinates->[1];
+        $h->{latitude} = $f->geometry->coordinates->[0];
+    
         my $company_obj = __PACKAGE__->new(%$h);
         
         push @result, $company_obj;
@@ -170,9 +172,9 @@ Serialize object data to arrayref.
 
 Can be useful when inserting data via modules like L<Text::CSV>
 
-Sequence is: C<id name shortName phones postalCode address url vk links>
+Sequence is: C<id name shortName phones postalCode address longitude latitude url vk instagram links>
 
-C<phones, links, vk> are serialized, each element on new string
+C<phones, links> are serialized, each element on new string
 
 =cut
 
@@ -186,8 +188,11 @@ sub to_array {
         join( "\n", @{$self->phones} ),
         $self->postalCode,
         $self->address,
+        $self->longitude,
+        $self->latitude,
         $self->url,
         $self->vk,
+        $self->instagram,
         join( "\n", @{$self->links} )
     ];
 }
