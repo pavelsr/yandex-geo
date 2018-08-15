@@ -31,7 +31,7 @@ It has following properties:
     url         # website of company, type = string
     phones      # company numbers, type = arrayref
     links       # links to pages on social networks, type = arrayref
-    vk          # link to vk, type = arrayref
+    vk          # link to vk, type = string
     address     # location, type = str
     postalCode  # postal code, type = str (6 digits)
     
@@ -56,6 +56,29 @@ do the same.
 
 use Object::Tiny qw{ id name shortName phones postalCode address url vk links };
 use JSON::XS;
+
+=head2 properties
+
+Detailed info about L<Yandex::Geo::Company> properties
+
+Return hashref with following keys:
+
+    set     - list if all set properties names, regardless of type, in alphabetic order
+    all     - list if all available properties names, regardless of type, in alphabetic order
+    string  - list of all properties names with type = string
+    array   - list of all properties names with type = ARRAY
+
+=cut
+
+sub properties {
+    my $self = shift;
+    return {
+        set => [ sort keys %$self ],
+        all => [ qw{ id name shortName phones postalCode address url vk links } ],
+        string => [ qw/id name shortName url address postalCode vk/ ],
+        array => [ qw/phones links/ ]
+    };
+}
 
 
 =head2 from_geo_json
@@ -158,7 +181,7 @@ sub to_array {
         $self->postalCode,
         $self->address,
         $self->url,
-        join( "\n", @{$self->vk} ),
+        $self->vk,
         join( "\n", @{$self->links} )
     ];
 }
