@@ -9,6 +9,16 @@ use warnings;
 
 Yandex::Geo::Company
 
+=head1 SYNOPSYS
+
+    use Yandex::Geo::Company;
+    my $a = Yandex::Geo::Company->new ( name => 'Test LLC' );
+    warn $a->name;   # 'Test LLC'
+    warn $a->foo;    # Can't locate object method "foo" via package "Yandex::Geo::Company"
+    
+    Yandex::Geo::Company::from_json( $res->to_json )
+    Yandex::Geo::Company::from_geo_json( $res )
+
 =head1 DESCRIPTION
 
 Class that is more convenient realization of company
@@ -27,12 +37,12 @@ It has following properties:
     
 Also, this class implements two methods: from_json and from_geo_json
 
-E.g. if you make a query
+If you make a query
 
     my $yndx_geo = Yandex::Geosearch->new( apikey => 'f33a4523-6c94-48df-9b41-5c5c6f250e98');
     my $res = $yndx_geo->get(text => 'макетные мастерские', only_city => 'ROV');
-    
-so
+
+and process C<$res>
 
     Yandex::Geo::Company::from_json( $res->to_json )
     
@@ -50,7 +60,7 @@ use JSON::XS;
 
 =head2 from_geo_json
 
-Accept Geo::JSON::FeatureCollection and return array of Yandex::Geo::Company
+Accept L<Geo::JSON::FeatureCollection>  as C<$json> and return array of L<Yandex::Geo::Company> objects
 
     Yandex::Geo::Company::from_geo_json($json);
 
@@ -88,7 +98,9 @@ sub from_geo_json {
 
 =head2 from_json
 
-Parse regular json to arrayref of Yandex::Geo::Company objects
+Parse regular json to arrayref of L<Yandex::Geo::Company> objects
+
+    Yandex::Geo::Company::from_json($json);
 
 =cut
 
@@ -129,9 +141,9 @@ Serialize object data to arrayref.
 
 Can be useful when inserting data via modules like L<Text::CSV>
 
-Sequence is: id name shortName phones postalCode address url vk links
+Sequence is: C<id name shortName phones postalCode address url vk links>
 
-phones, links, vk are serialized, each element on new string
+C<phones, links, vk> are serialized, each element on new string
 
 =cut
 
