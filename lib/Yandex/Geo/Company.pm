@@ -44,20 +44,22 @@ If you make a query
 
 and process C<$res>
 
-    Yandex::Geo::Company::from_json( $res->to_json )
+    Yandex::Geo::Company->from_json( $res->to_json )
     
 and
     
-    Yandex::Geo::Company::from_geo_json( $res )
+    Yandex::Geo::Company->from_geo_json( $res )
     
 do the same.
 
 =cut
 
-use Object::Tiny qw{ id name shortName phones postalCode address url vk links };
+use Object::Tiny qw{ id name shortName phones postalCode address url vk links coordinates };
 use JSON::XS;
 
 =head2 properties
+
+    Yandex::Geo::Company::properties();
 
 Detailed info about L<Yandex::Geo::Company> properties
 
@@ -71,10 +73,10 @@ Return hashref with following keys:
 =cut
 
 sub properties {
-    my $self = shift;
+    # my $self = shift;
     return {
-        set => [ sort keys %$self ],
-        all => [ qw{ id name shortName phones postalCode address url vk links } ],
+        # set => [ sort keys $self ],
+        all => [ qw{ id name shortName phones postalCode address url vk links coordinates } ],
         string => [ qw/id name shortName url address postalCode vk/ ],
         array => [ qw/phones links/ ]
     };
@@ -100,14 +102,18 @@ sub from_geo_json {
         
         my $h = {};
         
-        for (qw/id name shortName url address postalCode/) { 
+        for ( @{ __PACKAGE__->properties->{string} } ) { 
             $h->{$_} = $company_meta->{$_} 
         };
         
         push @{$h->{phones}}, $_->{formatted} for ( @{ $company_meta->{Phones} } );
         push @{$h->{links}}, $_->{href} for ( @{ $company_meta->{Links} } );
+        
         my $vk_link = ( grep { $_->{aref} eq '#vkontakte' } @{ $company_meta->{Links} } )[0];
         $h->{vk} = $vk_link->{href} if defined $vk_link;
+        
+        my $inst_link = ( grep { $_->{aref} eq '#instagram' } @{ $company_meta->{Links} } )[0];
+        $h->{instagram} = $inst_link->{href} if defined $inst_link;
         
         my $company_obj = __PACKAGE__->new(%$h);
         
@@ -140,7 +146,7 @@ sub from_json {
         my $company_meta = $f->{properties}{CompanyMetaData};
         my $h = {};
         
-        for (qw/id name shortName url address postalCode/) { 
+        for ( @{ __PACKAGE__->properties->{string} } ) { 
             $h->{$_} = $company_meta->{$_} 
         };
         
