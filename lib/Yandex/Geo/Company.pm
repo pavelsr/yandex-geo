@@ -184,7 +184,7 @@ Array properties like C<phones, links> are serialized, each element on new strin
 sub to_array {
     my ($self, $separator) = @_;
     
-    my $separator = "\n" unless defined $separator;
+    $separator = "\n" unless defined $separator;
     my @res;
     
     for my $p ( @{ properties()->{all} }) {
