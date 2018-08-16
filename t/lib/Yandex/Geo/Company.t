@@ -45,12 +45,12 @@ my $b = [
 +49-89-636-48018',
     344000,
     undef,
-    undef,
-    undef,
     'example.com',
     undef,
     undef,
-    'http://foo.bar'
+    'http://foo.bar',
+    undef,
+    undef
 ];
 
 is ref($a->to_array), 'ARRAY', 'Yandex::Geo::Company/to_array return array';

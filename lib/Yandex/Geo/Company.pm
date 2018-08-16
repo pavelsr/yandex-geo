@@ -54,7 +54,7 @@ do the same.
 
 =cut
 
-use Object::Tiny qw{ id name shortName phones postalCode address url vk instagram links longitude latitude };
+use Class::Tiny qw{ id name shortName phones postalCode address url vk instagram links longitude latitude };
 use JSON::XS;
 
 =head2 properties
@@ -168,33 +168,36 @@ sub from_json {
 
 =head2 to_array
 
+    $y_company->to_array;  # $y_company is L<Yandex::Geo::Company> object
+    $y_company->to_array("\n");
+
 Serialize object data to arrayref.
 
 Can be useful when inserting data via modules like L<Text::CSV>
 
-Sequence is: C<id name shortName phones postalCode address longitude latitude url vk instagram links>
+Sequence is according to L<Yandex::Geo::Company/properties> C<{all}>
 
-C<phones, links> are serialized, each element on new string
+Array properties like C<phones, links> are serialized, each element on new string
 
 =cut
 
 sub to_array {
-    my $self = shift;
+    my ($self, $separator) = @_;
     
-    return [
-        $self->id,
-        $self->name,
-        $self->shortName,
-        join( "\n", @{$self->phones} ),
-        $self->postalCode,
-        $self->address,
-        $self->longitude,
-        $self->latitude,
-        $self->url,
-        $self->vk,
-        $self->instagram,
-        join( "\n", @{$self->links} )
-    ];
+    my $separator = "\n" unless defined $separator;
+    my @res;
+    
+    for my $p ( @{ properties()->{all} }) {
+        
+        if ( ref($self->$p) eq 'ARRAY' ) {
+            $self->$p( join( $separator, @{$self->$p} ));
+        }
+        
+        push @res, $self->$p;
+        
+    }
+    
+    return \@res;
 }
 
 1;
